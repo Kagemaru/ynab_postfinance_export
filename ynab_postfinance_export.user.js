@@ -2,9 +2,9 @@
 // @name        Postfinance CSV Export
 // @namespace   Kagemaru
 // @include     https://www.postfinance.ch/ap/ba/fp/html/e-finance/assets
-// @version     6
+// @version     1.0.7
 // @grant       none
-// @updateURL   https://gist.github.com/Kagemaru/1cf1eab79a2959f50054fad390c4d302/raw/fb0b6160461bda21cef9a3502fbd29dbe00599b8/postfinance-ynab.user.js
+// @updateURL   https://github.com/Kagemaru/ynab_postfinance_export/raw/master/ynab_postfinance_export.user.js
 // ==/UserScript==
 // Function definitions
 function createGenerateButton() {
