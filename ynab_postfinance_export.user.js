@@ -2,7 +2,7 @@
 // @name        Postfinance CSV Export
 // @namespace   Kagemaru
 // @include     https://www.postfinance.ch/ap/ba/fp/html/e-finance/assets
-// @version     1.0.7
+// @version     3.0.7
 // @grant       none
 // @updateURL   https://github.com/Kagemaru/ynab_postfinance_export/raw/master/ynab_postfinance_export.user.js
 // ==/UserScript==
@@ -24,7 +24,7 @@ function createExportButton() {
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const day = date.getDate();
-    const filename = "ynab-" + year + "-" + month + "-" + day + ".csv"; 
+    const filename = "ynab-" + year + "-" + month + "-" + day + ".csv";
 
     // create a temporary download link
     let input = document.createElement("a");
@@ -55,10 +55,10 @@ function createHeader() {
 
 function sanitizeRow(row) {
     const date = row[4].replace(/(.*)-(.*)-(.*)/, '$3.$2.$1'); //Valutadatum statt Buchungsdatum
-    const payee = row[1].replace(/\"/gi, '');
+    const payee = '"' + row[1].replace(/\"/gi, '').replace(/\r\n?|\n/gi, ' ') + '"';
     const category = '';
     const memo = '';
-    const outflow = row[3].replace(/-(.*)/, '$1-');
+    const outflow = row[3].replace(/-(.*)/, '$1');
     const inflow = row[2];
 
     let line = [];
