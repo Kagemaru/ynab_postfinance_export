@@ -55,7 +55,10 @@ function createHeader() {
 
 function sanitizeRow(row) {
     const date = row[4].replace(/(.*)-(.*)-(.*)/, '$3.$2.$1'); //Valutadatum statt Buchungsdatum
-    const payee = '"' + row[1].replace(/\"/gi, '').replace(/\r\n?|\n/gi, ' ') + '"';
+    const payee = '"' + row[1].replace(/\"/gi, '').replace(/\r\n?|\n/gi, ' ')
+                              .replace(/(KAUF.DIENSTLEISTUNG|KAUF.ONLINE SHOPPING)\s*/,'')
+                              .replace(/VOM \d{2}\.\d{2}\.\d{4}\s*/, '')
+                              .replace(/KARTEN NR. XXXX\d{4}\s*/, '') + '"';
     const category = '';
     const memo = '';
     const outflow = row[3].replace(/-(.*)/, '$1');
