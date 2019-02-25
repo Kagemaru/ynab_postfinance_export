@@ -2,7 +2,7 @@
 // @name        Postfinance CSV Export
 // @namespace   Kagemaru
 // @include     https://www.postfinance.ch/ap/ba/fp/html/e-finance/assets
-// @version     3.0.8
+// @version     3.1.0
 // @grant       none
 // @updateURL   https://github.com/Kagemaru/ynab_postfinance_export/raw/master/ynab_postfinance_export.user.js
 // ==/UserScript==
