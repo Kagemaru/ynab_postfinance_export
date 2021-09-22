@@ -39,21 +39,43 @@ function createExportButton() {
 }
 
 function createCSV() {
+    if ($("span[pf-translate='detailpages.efcreditcard.overview.AvailableAmountPrepaid']").length > 0) {
+        return createDebitCSV();
+    } else {
+        return createAccountCSV();
+    }
+}
+
+function createAccountCSV() {
     // acquire the data computed by the Post
-    let result = JSON.parse($("input[name='data']")[0].value)
+    let result = JSON.parse($("input[name='data']")[0].value);
 
     // process the content
-    result = result.filter(row => row.length === 6).map((row, index) => index > 0 ? sanitizeRow(row) : createHeader());
+    let transactions = result.filter(row => row.length === 6);
+    let rows = transactions.map((row, index) => index > 0 ? sanitizeAccountRow(row) : createHeader());
 
     // join the results into a single string
-    return result.join("\n");
+    return rows.join("\n");
+}
+
+function createDebitCSV() {
+    // acquire the data computed by the Post
+    let result = JSON.parse($("input[name='data']")[0].value);
+
+    // process the content
+    let transactions = result.filter(row => row.length === 4 );
+    let sanitized = transactions.map((row, index) => sanitizeDebitRow(row));
+    let rows = [createHeader()].concat(sanitized);
+
+    // join the results into a single string
+    return rows.join("\n");
 }
 
 function createHeader() {
     return 'Date,Payee,Category,Memo,Outflow,Inflow';
 }
 
-function sanitizeRow(row) {
+function sanitizeAccountRow(row) {
     const date = row[4].replace(/(.*)-(.*)-(.*)/, '$3.$2.$1'); //Valutadatum statt Buchungsdatum
     const payee = '"' + row[1].replace(/\"/gi, '').replace(/\r\n?|\n/gi, ' ')
                               .replace(/(KAUF.DIENSTLEISTUNG|KAUF.ONLINE SHOPPING)\s*/,'')
@@ -74,6 +96,34 @@ function sanitizeRow(row) {
 
     return line.join(',');
 }
+
+function sanitizeDebitRow(row) {
+    // 0 = date
+    // 1 = payee
+    // 2 = inflow
+    // 3 = outflow
+    const date = row[0].replace(/(.*)-(.*)-(.*)/, '$3.$2.$1'); //Valutadatum statt Buchungsdatum
+    const payee = '"' + row[1].replace(/\"/gi, '').replace(/\r\n?|\n/gi, ' ')
+                              .replace(/(KAUF.DIENSTLEISTUNG|KAUF.ONLINE SHOPPING)\s*/,'')
+                              .replace(/VOM \d{2}\.\d{2}\.\d{4}\s*/, '')
+                              .replace(/KARTEN NR. XXXX\d{4}\s*/, '') + '"';
+    const category = '';
+    const memo = '';
+    const outflow = row[3].replace(/-(.*)/, '$1');
+    const inflow = row[2];
+
+    let line = [];
+    line.push(date);
+    line.push(payee);
+    line.push(category);
+    line.push(memo);
+    line.push(outflow);
+    line.push(inflow);
+
+    return line.join(',');
+}
+
+
 
 /* waitForKeyElements():  A handy, utility function that
  * does what it says.
