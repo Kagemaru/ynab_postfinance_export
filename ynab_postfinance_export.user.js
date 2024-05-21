@@ -3,7 +3,7 @@
 // @namespace   Kagemaru
 // @description Export Postfinance Assets
 // @match       https://www.postfinance.ch/ap/ba/ob/html/finance/assets/movements-overview
-// @version     3.1.0
+// @version     4.0.0
 // @grant       none
 // @downloadURL https://github.com/Kagemaru/ynab_postfinance_export/raw/master/ynab_postfinance_export.user.js
 // @updateURL   https://github.com/Kagemaru/ynab_postfinance_export/raw/master/ynab_postfinance_export.user.js
